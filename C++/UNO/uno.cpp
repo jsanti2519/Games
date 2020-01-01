@@ -18,11 +18,7 @@ int main() {
   setUp();
   shuffleDeck();
 
-  
-
   for(int k = 0; k < 108; k++) cout << shuffle[k] << "\n";
-
-  return 0;
 }
 
 void setUp() {
