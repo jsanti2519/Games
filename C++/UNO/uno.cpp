@@ -57,7 +57,10 @@ void shuffleDeck() {
     while(repeats) {
       shuffle[i] = deck[rand() % 108];
       for(int k = 0; k < i; k++) {
-        if(shuffle[k] == shuffle[i]) break;
+        if(shuffle[k] == shuffle[i]) {
+           repeats = true;
+           break;
+           }
         repeats = false;
       }
     }
