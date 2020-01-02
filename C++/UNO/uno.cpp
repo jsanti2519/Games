@@ -3,7 +3,7 @@
 #include <ctime>
 using namespace std;
 
-string deck[108], shuffle[108];
+string deck[108], shuffle[108], yourDeck[100], pcDeck[100], cardDrop[108];
 string colors[4] = {"Red", "Yellow", "Blue", "Green"};
 string numbers[12] = {" 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", " +2", " Skip", " Reverse"};
 string zero = " 0";
@@ -11,14 +11,22 @@ string WildCards[2] = {"Wild +4", "Wild Card"};
 
 void setUp();
 void shuffleDeck();
+void initialDraw(int&);
+void removeElement(string[], int, int);
 
 
 int main() {
   srand(time(NULL));
   setUp();
   shuffleDeck();
-
-  for(int k = 0; k < 108; k++) cout << shuffle[k] << "\n";
+  
+  int selection;
+  int max;
+  cout << "Press 0 to Draw 7: ";
+  cin >> selection;
+  initialDraw(max);
+  
+  //for(int k = 0; k < 108; k++) cout << shuffle[k] << "\n"; receiving what I did not expect...
 }
 
 void setUp() {
@@ -56,7 +64,28 @@ void shuffleDeck() {
   }
 }
 
-//set up deck (A)
-//shuffle cards (A)
-//distribute cards to each person. (I)
-// 
+void initialDraw(int &max) {
+  cout << "Your sets are: \n";
+  for(int i = 0; i < 7; i++) {
+    max = 107 - i;
+    yourDeck[i] = shuffle[max];
+    cout << yourDeck[i] << "\n";
+    removeElement(shuffle, 108, max); //removes element in position where max is.
+  }
+  cout << "\n\n";
+  
+  //max should be 101 now.
+  
+  for(int j = 0; j < 7; j++) {
+    max = 101 - j;
+    pcDeck[j] = shuffle[max];
+    removeElement(shuffle, 108, max);
+  }
+  //max becomes 95.
+}
+
+void removeElement(string a[], int cap, int pos) {
+  for(int i = 0; i < cap; i++) {
+    if(i >= pos) a[i] = a[i + 1];
+  }
+}
