@@ -84,6 +84,6 @@ void initialDraw(int &foo) { //foo linked with max in main().
 
 void removeElement(string a[], int cap, int pos) {
   for(int i = 0; i < cap; i++) {
-    if(i >= pos) a[i] = a[i + 1];
+    if(i >= pos) a[i] = " ";
   }
 }
