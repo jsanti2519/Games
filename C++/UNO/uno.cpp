@@ -64,22 +64,20 @@ void shuffleDeck() {
   }
 }
 
-void initialDraw(int &max) {
+void initialDraw(int &foo) { //foo linked with max in main().
   cout << "Your sets are: \n";
   for(int i = 0; i < 7; i++) {
-    max = 107 - i;
-    yourDeck[i] = shuffle[max];
+    foo = 107 - i;
+    yourDeck[i] = shuffle[foo];
     cout << yourDeck[i] << "\n";
-    removeElement(shuffle, 108, max); //removes element in position where max is.
+    removeElement(shuffle, 108, foo); //removes element in position where max is.
   }
   cout << "\n\n";
   
-  //max should be 101 now.
-  
   for(int j = 0; j < 7; j++) {
-    max = 101 - j;
-    pcDeck[j] = shuffle[max];
-    removeElement(shuffle, 108, max);
+    foo = 101 - j;
+    pcDeck[j] = shuffle[foo];
+    removeElement(shuffle, 108, foo);
   }
   //max becomes 95.
 }
