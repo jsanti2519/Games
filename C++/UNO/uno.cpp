@@ -26,7 +26,7 @@ int main() {
   cin >> selection;
   initialDraw(max);
   
-  //for(int k = 0; k < 108; k++) cout << shuffle[k] << "\n"; receiving what I did not expect...
+  //for(int k = 0; k < 108; k++) cout << shuffle[k] << "\n";
 }
 
 void setUp() {
@@ -75,11 +75,11 @@ void initialDraw(int &foo) { //foo linked with max in main().
   cout << "\n\n";
   
   for(int j = 0; j < 7; j++) {
-    foo = 101 - j;
+    foo = 100 - j;
     pcDeck[j] = shuffle[foo];
     removeElement(shuffle, 108, foo);
   }
-  //max becomes 95.
+  //max becomes 94.
 }
 
 void removeElement(string a[], int cap, int pos) {
