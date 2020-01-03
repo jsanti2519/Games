@@ -51,17 +51,16 @@ void setUp() {
 }
 
 void shuffleDeck() {
-  shuffle[0] = deck[rand() % 108];
-  for(int i = 1; i < 108; i++) {
+  for(int i = 0; i < 108; i++) {
     bool repeats = true;
     while(repeats) {
       shuffle[i] = deck[rand() % 108];
-      for(int k = 0; k < i; k++) {
+      for(int k = 1; k < i; k++) {
         if(shuffle[k] == shuffle[i]) {
-           repeats = true;
-           break;
-           }
-        repeats = false;
+          repeats = true;
+          break;
+        }
+        else repeats = false;
       }
     }
   }
