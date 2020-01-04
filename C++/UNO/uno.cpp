@@ -8,6 +8,7 @@ string colors[4] = {"Red", "Yellow", "Blue", "Green"};
 string numbers[12] = {" 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", " +2", " Skip", " Reverse"};
 string zero = " 0";
 string WildCards[2] = {"Wild +4", "Wild Card"};
+int index[108], shuffleIndex[108];
 
 void setUp();
 void shuffleDeck();
@@ -51,20 +52,21 @@ void setUp() {
 }
 
 void shuffleDeck() {
-  shuffle[0] = deck[rand() % 108];
-  for(int i = 1; i < 108; i++) {
+  for(int i = 0; i < 108; i++) index[i] = i;
+  shuffleIndex[0] = index[rand() % 108];
+  for(int j = 1; j < 108; j++) {
     bool repeats = true;
     while(repeats) {
-      shuffle[i] = deck[rand() % 108];
+      shuffleIndex[j] = index[rand() % 108];
       for(int k = 0; k < i; k++) {
-        if(shuffle[k] == shuffle[i]) {
-          repeats = true;
-          break;
+        if(shuffleIndex[k] == shuffleIndex[j]) {
+          repeats = true; break;
         }
         else repeats = false;
       }
     }
   }
+    for(int l = 0; l < 108; l++) shuffle[l] = deck[shuffleIndex[l]];
 }
 
 void initialDraw(int &foo) { //foo linked with max in main().
