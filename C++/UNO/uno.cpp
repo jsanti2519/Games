@@ -58,7 +58,7 @@ void shuffleDeck() {
     bool repeats = true;
     while(repeats) {
       shuffleIndex[j] = index[rand() % 108];
-      for(int k = 0; k < i; k++) {
+      for(int k = 0; k < j; k++) {
         if(shuffleIndex[k] == shuffleIndex[j]) {
           repeats = true; break;
         }
