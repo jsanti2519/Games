@@ -10,6 +10,7 @@ string zero = " 0";
 string WildCards[2] = {"Wild +4", "Wild Card"};
 int index[108], shuffleIndex[108];
 int cardDropCount = 0, yourDeckCount = 7, pcDeckCount = 7;
+bool turns;
 
 void setUp();
 void shuffleDeck();
@@ -27,6 +28,38 @@ int main() {
   cout << "Press 0 to Draw 7: "; // fix this. I can type 3 and still proceeds.
   cin >> selection;
   initialDraw(max, selection);
+
+  while(pcDeckCount > 1 || yourDeckCount > 1) {
+    if(!turns) { //that means it's the computer's turn.
+      for(int j = 0; j < pcDeckCount; j++) {
+        int waldo = pcDeck[j].find(" ");
+        int baz = cardDrop[cardDropCount].find(" "); 
+        if(pcDeck[j] == "Wild +4" || pcDeck[j] == "Wild Card") {
+          effects(turns); turns = true; pcDeckCount--; cardDropCount++;
+          break;
+        }
+        else if((pcDeck[j].substr(0, waldo) == cardDrop[cardDropCount].substr(0, baz) || (pcDeck[j].substr(waldo, 2) == cardDrop[cardDropCount].substr(baz, 2)))) {
+          if(pcDeck[j].substr(waldo, 2) == " +2") {
+            for(int k = 0; k < 2; k++) {
+              yourDeck[++yourDeckCount] = shuffle[max--];
+            }
+          }
+
+          
+        
+
+
+          cardDrop[cardDropCount] = pcDeck[j];
+          turns = true; pcDeckCount--; cardDropCount++;
+        }
+        else if(pcDeck[j].substr(waldo, 2) == " +2") {
+
+        }
+
+      }
+    }
+  }
+
   
  // for(int k = 0; k < 108; k++) cout << k + 1 << ")." << shuffle[k] << "\n";
 }
@@ -72,36 +105,50 @@ void shuffleDeck() {
 
 void initialDraw(int &foo, int &bar) { //foo linked with max in main(), while bar is linked with selection variable.
   cout << "Your sets are: \n";
-  for(int i = 0; i < 7; i++) {
+  for(int i = 0; i < yourDeckCount; i++) {
     foo = 107 - i;
     yourDeck[i] = shuffle[foo];
     cout << i + 1 << "). " << yourDeck[i] << "\n";
     removeElement(shuffle, 108, foo); //removes element in position where max is.
   }
   
-  for(int j = 0; j < 7; j++) { //Computer's initial draw.
+  for(int j = 0; j < pcDeckCount; j++) { //Computer's initial draw.
     foo = 100 - j;
     pcDeck[j] = shuffle[foo];
     removeElement(shuffle, 108, foo);
   }
-  cout << "\n\nSelect a number to draw: ";
+
+  cout << "\n\nSelect a number to draw: "; //your first turn.
   cin >> bar; bar--; cout << "\n\n";
-  for(int k = 0; k < 7; k++) {
+  for(int k = 0; k < yourDeckCount; k++) {
     if(k >= bar) yourDeck[k] = yourDeck[k + 1];
   }
   cardDrop[cardDropCount++] = yourDeck[bar];
+  turns = false;
 }
 
-void effects(int &qux) { //linked with YOUR selection.
-  while(yourDeckCount > 1 || pcDeckCount > 1) {
-    int compSelect = rand() % pcDeckCount;
-    for(int i = 0; i < pcDeckCount; i++) {
-      if(pcDeck[i] == WildCards[0] || pcDeck[i] == WildCards[1]) cardDrop[cardDropCount + 1] == pcDeck[i];
-      else if (cardDrop[cardDropCount].substr(0, cardDrop[cardDropCount].find(" ")) == yourDeck[compSelect] )
-      
+void effects(int &qux) { //linked with max.
+  int n = rand() % pcDeckCount;
+  int randColors = rand() % 4;
+  for(int i = 0; i < pcDeckCount; i++) {
+    cardDrop[cardDropCount] = pcDeck[n]; // necessary??
+    if(pcDeck[n] == "Wild +4") {
+      cout << "I dropped a Wild + 4. I'm picking " << colors[randColors];
+      cardDrop[cardDropCount] = colors[randColors]; cardDropCount++;
+      for(int j = 0; j < yourDeckCount + 4; j++) { //double check this again.
+        yourDeck[yourDeckCount + j + 1] = deck[qux];
+        qux--;
+      }
+      break;
     }
+    else if(pcDeck[n] == "Wild Card") {
+      cout << "I dropped a Wild Card: I'm picking " << colors[randColors];
+      cardDrop[cardDropCount] = colors[randColors]; cardDropCount++;
+      break;
+    }
+
   }
-}
+
 
 void removeElement(string a[], int cap, int pos) {
   for(int i = 0; i < cap; i++) {
