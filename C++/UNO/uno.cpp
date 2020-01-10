@@ -9,10 +9,11 @@ string numbers[12] = {" 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", " +2
 string zero = " 0";
 string WildCards[2] = {"Wild +4", "Wild Card"};
 int index[108], shuffleIndex[108];
+int cardDropCount = 0, yourDeckCount = 7, pcDeckCount = 7;
 
 void setUp();
 void shuffleDeck();
-void initialDraw(int&);
+void initialDraw(int&, int);
 void removeElement(string[], int, int);
 
 
@@ -23,11 +24,11 @@ int main() {
   
   int selection;
   int max;
-  cout << "Press 0 to Draw 7: ";
+  cout << "Press 0 to Draw 7: "; // fix this. I can type 3 and still proceeds.
   cin >> selection;
-  initialDraw(max);
+  initialDraw(max, selection);
   
-  for(int k = 0; k < 108; k++) cout << shuffle[k] << "\n";
+ // for(int k = 0; k < 108; k++) cout << k + 1 << ")." << shuffle[k] << "\n";
 }
 
 void setUp() {
@@ -69,22 +70,37 @@ void shuffleDeck() {
     for(int l = 0; l < 108; l++) shuffle[l] = deck[shuffleIndex[l]];
 }
 
-void initialDraw(int &foo) { //foo linked with max in main().
+void initialDraw(int &foo, int &bar) { //foo linked with max in main(), while bar is linked with selection variable.
   cout << "Your sets are: \n";
   for(int i = 0; i < 7; i++) {
     foo = 107 - i;
     yourDeck[i] = shuffle[foo];
-    cout << yourDeck[i] << "\n";
+    cout << i + 1 << "). " << yourDeck[i] << "\n";
     removeElement(shuffle, 108, foo); //removes element in position where max is.
   }
-  cout << "\n\n";
   
-  for(int j = 0; j < 7; j++) {
+  for(int j = 0; j < 7; j++) { //Computer's initial draw.
     foo = 100 - j;
     pcDeck[j] = shuffle[foo];
     removeElement(shuffle, 108, foo);
   }
-  //max becomes 94.
+  cout << "\n\nSelect a number to draw: ";
+  cin >> bar; bar--; cout << "\n\n";
+  for(int k = 0; k < 7; k++) {
+    if(k >= bar) yourDeck[k] = yourDeck[k + 1];
+  }
+  cardDrop[cardDropCount++] = yourDeck[bar];
+}
+
+void effects(int &qux) { //linked with YOUR selection.
+  while(yourDeckCount > 1 || pcDeckCount > 1) {
+    int compSelect = rand() % pcDeckCount;
+    for(int i = 0; i < pcDeckCount; i++) {
+      if(pcDeck[i] == WildCards[0] || pcDeck[i] == WildCards[1]) cardDrop[cardDropCount + 1] == pcDeck[i];
+      else if (cardDrop[cardDropCount].substr(0, cardDrop[cardDropCount].find(" ")) == yourDeck[compSelect] )
+      
+    }
+  }
 }
 
 void removeElement(string a[], int cap, int pos) {
