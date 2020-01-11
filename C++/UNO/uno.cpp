@@ -29,40 +29,62 @@ int main() {
   cin >> selection;
   initialDraw(max, selection);
 
-  while(pcDeckCount > 1 || yourDeckCount > 1) {
+  while(pcDeckCount > 0 || yourDeckCount > 0) {
+    int baz = cardDrop[cardDropCount].find(" ");
     if(!turns) { //that means it's the computer's turn.
       for(int j = 0; j < pcDeckCount; j++) {
-        int waldo = pcDeck[j].find(" ");
-        int baz = cardDrop[cardDropCount].find(" "); 
+        int waldo = pcDeck[j].find(" "); 
         if(pcDeck[j] == "Wild +4" || pcDeck[j] == "Wild Card") {
           effects(turns); turns = true; pcDeckCount--; cardDropCount++;
           break;
         }
+        //Line below in English: If color matches with color OR if number matches with number.
         else if((pcDeck[j].substr(0, waldo) == cardDrop[cardDropCount].substr(0, baz) || (pcDeck[j].substr(waldo, 2) == cardDrop[cardDropCount].substr(baz, 2)))) {
-          if(pcDeck[j].substr(waldo, 2) == " +2") {
-            for(int k = 0; k < 2; k++) {
-              yourDeck[++yourDeckCount] = shuffle[max--];
-            }
+          if(pcDeck[j].substr(waldo, 2) == " +2") { //if color matches and it's a +2.
+            for(int k = 0; k < 2; k++) yourDeck[yourDeckCount++] = shuffle[max--];
+            pcDeckCount--; cardDropCount++; turns = true; //PC drops the +2 card. Your turn.
+            break; 
           }
-
-          
-        
-
-
-          cardDrop[cardDropCount] = pcDeck[j];
-          turns = true; pcDeckCount--; cardDropCount++;
-        }
-        else if(pcDeck[j].substr(waldo, 2) == " +2") {
-
-        }
-
+          else if(pcDeck[j].substr(waldo, 7) == " Reverse" || pcDeck[j].substr(waldo, 5) == " Skip") {
+            pcDeckCount--; cardDropCount++; turns = false; //PC drops the reverse/skip card. PC goes again.
+            break;
+          }
+          else {
+            cardDrop[cardDropCount] = pcDeck[j];
+            pcDeckCount--; cardDropCount++; turns = true;
+            break;
+          }
+        } // matching colors/numbers else if bracket.
+      } // for loop bracket.
+    } // if(false) bracket.
+    
+    if(turns) {
+      cout << "Here are your sets. Choose one: \n";
+      for(int i = 0; i < yourDeckCount; i++) {
+        cout << i + 1 << "). " << yourDeck[i] << endl;
       }
-    }
-  }
-
-  
- // for(int k = 0; k < 108; k++) cout << k + 1 << ")." << shuffle[k] << "\n";
-}
+      cin >> selection; selection--;
+      int fred = yourDeck[selection].find(" "); 
+      if(yourDeck[selection] == "Wild Card" || yourDeck[selection] == "Wild +4") {
+        effects(!turns); yourDeckCount--; cardDropCount++; turns = false;
+      }
+      else if(yourDeck[selection].substr(0, fred) == cardDrop[cardDropCount].substr(0, baz) || yourDeck[selection].substr(fred, 2) == cardDrop[cardDropCount].substr(baz, 2) {
+        if(yourDeck[selection].substr(fred, 2) == " +2") {
+          for(int k = 0; k < 2; k++) pcDeck[pcDeckCount++] = shuffle[max--];
+          yourDeckCount--; cardDropCount++; turns = false;
+        }
+        else if(yourDeck[selection].substr(fred, 2) == " Reverse" || yourDeck[selection].substr(fred, 2) == " Skip") {
+          yourDeckCount--; cardDropCount++; turns = true; //You go again.
+        }
+        else {
+          cardDrop[cardDropCount] = yourDeck[selection];
+          yourDeckCount--; cardDropCount++; turns = false;
+        } //inner else bracket
+      } //outer else if bracket
+    } // true / false bracket
+  } //while loop bracket
+        
+} // main bracket
 
 void setUp() {
   int colorCount = 0, numCount = 0, twice = 1;
