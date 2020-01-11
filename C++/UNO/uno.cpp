@@ -57,6 +57,7 @@ int main() {
         } // matching colors/numbers else if bracket.
       } // for loop bracket.
     } // if(false) bracket.
+    if(pcDeckCount == 1) cout << "PC: UNO!";
     
     if(turns) {
       cout << "Here are your sets. Choose one: \n";
@@ -82,9 +83,20 @@ int main() {
         } //inner else bracket
       } //outer else if bracket
     } // true / false bracket
-  } //while loop bracket
+    if(yourDeckCount == 1) {
+      string uno;
+      cout << "Type UNO";
+      cin >> uno;
+      if(uno != "UNO" || uno != "uno") yourDeck[++yourDeckCount] == shuffle[max--];
+    }
         
-} // main bracket
+  } //while loop bracket
+  if(pcDeckCount == 0) cout << "PC: UNO OUT! You lose";
+  else cout << "Uno out! You win!";
+              
+  return 0;
+        
+}
 
 void setUp() {
   int colorCount = 0, numCount = 0, twice = 1;
@@ -168,9 +180,7 @@ void effects(int &qux) { //linked with max.
       cardDrop[cardDropCount] = colors[randColors]; cardDropCount++;
       break;
     }
-
   }
-
 
 void removeElement(string a[], int cap, int pos) {
   for(int i = 0; i < cap; i++) {
